@@ -12,7 +12,15 @@ public final class General_452_plugin extends JavaPlugin implements Listener {
     @EventHandler
     public void killFlo(AsyncPlayerChatEvent event) {
         Player p = event.getPlayer();
-        if(p.getName().equals("FlopiCFeeD") && event.getMessage().equalsIgnoreCase("poop")) {
+        boolean messageIsInConfig = false;
+        for (String s : getConfig().getStringList("phrases")) {
+            if (s.equalsIgnoreCase(event.getMessage())) {
+                messageIsInConfig = true;
+                break;
+            }
+        }
+        boolean playerIsInConfig = getConfig().getStringList("player").contains(p.getName());
+        if(playerIsInConfig && messageIsInConfig) {
             BukkitScheduler scheduler = getServer().getScheduler();
             scheduler.scheduleSyncDelayedTask(this, () -> p.setHealth(0.0));
         }
@@ -21,6 +29,8 @@ public final class General_452_plugin extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        getConfig().options().copyDefaults(true);
+        saveDefaultConfig();
         getServer().getPluginManager().registerEvents(this, this);
     }
 
