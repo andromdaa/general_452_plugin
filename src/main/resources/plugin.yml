@@ -1,0 +1,4 @@
+name: General_452_plugin
+version: '${project.version}'
+main: io.github.andromdaa.general_452_plugin.General_452_plugin
+api-version: 1.19
