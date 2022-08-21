@@ -7,21 +7,19 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public final class General_452_plugin extends JavaPlugin implements Listener {
+public final class General_452_plugin extends JavaPlugin {
+    private static General_452_plugin plugin;
 
-    @EventHandler
-    public void killFlo(AsyncPlayerChatEvent event) {
-        Player p = event.getPlayer();
-        if(p.getName().equals("FlopiCFeeD") && event.getMessage().equalsIgnoreCase("poop")) {
-            BukkitScheduler scheduler = getServer().getScheduler();
-            scheduler.scheduleSyncDelayedTask(this, () -> p.setHealth(0.0));
-        }
+    public static General_452_plugin getPlugin() {
+        return plugin;
     }
-
 
     @Override
     public void onEnable() {
-        getServer().getPluginManager().registerEvents(this, this);
+        plugin = this;
+        getConfig().options().copyDefaults(true);
+        saveDefaultConfig();
+        getServer().getPluginManager().registerEvents(new OnChat(), this);
     }
 
     @Override
